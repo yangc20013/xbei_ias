@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>镶贝资讯</title>
+<link href="./lib/css/bootstrap.min.css" rel="stylesheet">
+<link href="./lib/css/bootstrap-table.min.css" rel="stylesheet" />
+<script src="./lib/js/jquery.min.js"></script>
+<script src="./lib/js/bootstrap.min.js"></script>
+<script src="./lib/js/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="./index.js"></script>
+</head>
+<body>
+	<div class="jumbotron text-center" style="margin-bottom: 0">
+		<h1>镶 贝 资 讯 分 析 系 统</h1>
+	</div>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#myNavbar">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">镶贝资讯</a>
+			</div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="./index.html">Home</a></li>
+					<li><a href="./chpct.html">Chpct</a></li>
+					<li><a href="./etop.html">ETOP</a></li>
+					<li><a href="./orisignal.html">Orisignal</a></li>
+					<li><a href="./volatility.html">Volatility</a></li>
+					<li><a href="./ticker.html">Ticker</a></li>
+					<li><a href="./bplf.html">BP_LF</a></li>
+					<li><a href="./rel.html">REL</a></li>
+					<li><a href="./return.html">Return</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="panel panel-default">
+			<div class="panel-heading">确认选股范围</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label for="search_year" class="col-sm-2 control-label">查询年份</label>
+					<div class="col-md-4">
+						<select id="search_year" class="form-control">
+							<option value="0">2018年第一季度</option>
+							<option value="1">2018年第二季度</option>
+							<option value="2">2018年第三季度</option>
+						</select>
+					</div>
+					<label for="area" class="col-sm-2 control-label">选股范围</label>
+					<div class="col-md-4">
+						<input class="form-control" type="text" id="area" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="is_list" class="col-sm-2 control-label">罗列基金持仓</label>
+					<div class="col-md-4">
+						<select id="is_list" class="form-control">
+							<option value="0">是</option>
+							<option value="1">否</option>
+						</select>
+					</div>
+					<label for="endtime" class="col-sm-2 control-label">无风险利率选择</label>
+					<div class="col-md-4">
+						<input class="form-control" type="text" id="endtime" value="3.5%" />
+						<p>一年定期存款</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-8 col-sm-4">
+						<button id="sub_search" class="btn">查询</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="search_result">
+			<div class="panel panel-default">
+				<div class="panel-heading">信息反馈</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">样本数</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" value="3522" />
+						</div>
+						<label class="col-sm-2 control-label">沪深两市股票只数合计</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" value="3522.00" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">最近一期公募基金持仓量</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" value="3522" />
+						</div>
+						<label class="col-sm-2 control-label">上证指数</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" value="1822.00" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">市值合计(万亿)</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" value="55.95" />
+						</div>
+						<label class="col-sm-2 control-label">沪深两市股票市值合计</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" value="55.95" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">最近一期公募基金规模</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" value="12.87" />
+						</div>
+						<label class="col-sm-2 control-label">深圳指数</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" value="9379.47" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">结果输出</div>
+				<div class="panel-body">
+					<table id="demo_result"></table>
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">最近一期持仓基金</h3>
+				</div>
+				<div class="panel-body">
+					<table id="demo_data"></table>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="jumbotron text-center" style="margin-bottom: 0">
+		<p>Copyright &copy;2018 镶贝资讯</p>
+	</div>
+</body>
+</html>

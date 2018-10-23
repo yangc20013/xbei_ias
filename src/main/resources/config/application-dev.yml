@@ -1,0 +1,8 @@
+spring:
+  jpa:
+    show-sql: true
+  datasource: 
+    driverClassName : com.mysql.jdbc.Driver
+    url : jdbc:mysql://localhost:3306/xbei_ias?useUnicode=true&characterEncoding=UTF-8
+    username : root
+    password : root

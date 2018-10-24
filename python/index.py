@@ -1,9 +1,11 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-import tushare as ts
 import requests
 import datetime
 import json
+import tushare as ts
+
+max=0.50
 
 def get_stock_list():
 	stock_info = ts.get_stock_basics()
@@ -11,7 +13,6 @@ def get_stock_list():
 	for i in stock_info.index: 
 		stock_list.append(i)
 	return stock_list
-
 
 def get_day_stock_info(code,bdate,edate):
 	if bdate==None:
@@ -28,13 +29,20 @@ def get_day_stock_info(code,bdate,edate):
 	parse_data(code,data)
 
 def str2float(s):
-	aa = float(s.strip('%'))
-	return aa/100.0
+	try:
+		aa = float(s.strip('%'))
+		return aa/100.0
+	except Exception,e:
+		print(s,e)
 
 def parse_data(code,txt):
 	data=json.loads(txt)
 	if type(data).__name__ == 'list' and type(data[0]).__name__ == 'dict':
 		stocks=data[0]['hq']
 		for i in range(0,len(stocks)):
-			if str2float(stocks[i][9]) > 0.5:
+			if str2float(stocks[i][9]) > max:
 				print code,stocks[i][0],stocks[i][9]
+
+stock_list = get_stock_list()
+for i in stock_list:
+	get_day_stock_info(i,None,None)

@@ -5,6 +5,7 @@ import requests
 import datetime
 import json
 import pymysql
+import config
 
 #获取所有股票
 def get_all_stock():
@@ -100,7 +101,7 @@ def parse_stock(code,txt):
 #execute insert
 def db_insert(sql):
 	try:
-		db=pymysql.connect(host='localhost',user='root',password='root',db='xbei_ias',charset='utf8',port=3306)
+		db=pymysql.connect(host=config.MYSQL_HOST,user=config.MYSQL_USER,password=config.MYSQL_PASSWORD,db=config.MYSQL_DB,charset='utf8',port=config.MYSQL_PORT)
 		cur = db.cursor()
 		cur.execute(sql)
 		db.commit()
@@ -110,7 +111,7 @@ def db_insert(sql):
 #execute select
 def db_select(sql):
 	try:
-		db=pymysql.connect(host='localhost',user='root',password='root',db='xbei_ias',charset='utf8',port=3306)
+		db=pymysql.connect(host=config.MYSQL_HOST,user=config.MYSQL_USER,password=config.MYSQL_PASSWORD,db=config.MYSQL_DB,charset='utf8',port=config.MYSQL_PORT)
 		cur = db.cursor()
 		cur.execute(sql)
 		results = cur.fetchall()	#获取查询的所有记录

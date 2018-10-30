@@ -16,4 +16,42 @@
 			drop table menu;
 		</rollback>
 	</changeSet>
+	
+	<changeSet id="addDictTable" author="yangcheng">
+		<comment>add dictionary table</comment>
+		<sql>
+			drop table if exists `dict`;
+			create table `dict`(
+				`name` varchar(255) not null,
+				`value` varchar(255) not null,
+				`description` varchar(255) default null,
+				PRIMARY KEY (`name`)
+			)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+			insert into `dict`(`name`,`value`,`description`)values('day_threshold','0.05','日线换手率阀值');
+			insert into `dict`(`name`,`value`,`description`)values('week_threshold','0.2','周线换手率阀值');
+		</sql>
+	</changeSet>
+	
+	<changeSet id="addStockTable" author="yangcheng">
+		<comment>add stock table</comment>
+		<sqlFile encoding="utf8"
+            path="initStockTable.sql"
+            relativeToChangelogFile="true" />
+	</changeSet>
+	<changeSet id="addFilterStock" author="yangcheng">
+		<comment>增加筛选后的股票表</comment>
+		<sql>
+			drop table if exists `filter_stock`;
+			create table `filter_stock`(
+				`id` int(11) not null AUTO_INCREMENT,
+				`code` varchar(255) not null,
+				`date` varchar(255) not null,
+				`daily` varchar(255) not null,
+				`week_day` varchar(255) not null,
+				`weekly` varchar(255) default null,
+				PRIMARY KEY (`id`)
+			)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+			create unique index idx_filter_stock on filter_stock(code,date,week_day);
+		</sql>
+	</changeSet>
 </databaseChangeLog>

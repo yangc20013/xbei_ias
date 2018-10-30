@@ -1,5 +1,7 @@
 package com.xbei.ias.models.vo;
 
+import java.util.List;
+
 import org.springframework.data.domain.Sort.Direction;
 
 import com.xbei.ias.models.BaseModel;
@@ -21,4 +23,9 @@ public class SearchModel extends BaseModel {
 	private int pageNum;
 	private Direction order;
 	private String sortColumn;
+	
+	private List<String> stocks;
+	
+	private float dayRate;
+	private float weekRate;
 }

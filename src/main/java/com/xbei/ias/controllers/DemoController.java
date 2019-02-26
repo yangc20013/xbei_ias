@@ -37,7 +37,7 @@ public class DemoController {
     public ResponseEntity<Page<DemoResult>> result(SearchModel model) {
 //		Pageable pageable = new PageRequest(model.getPageNum() - 1,model.getPageSize(), new Sort(model.getOrder(),model.getSortColumn()));
 		
-		Pageable pageable = new PageRequest(model.getPageNum() - 1,model.getPageSize());
+		Pageable pageable = PageRequest.of(model.getPageNum() - 1,model.getPageSize());
 		return new ResponseEntity<>(demoService.getResult(pageable),HttpStatus.OK);
 	}
 	

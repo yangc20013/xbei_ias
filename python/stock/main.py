@@ -59,9 +59,9 @@ if __name__ == '__main__':
 			searchCode = re.match(".*code=(\\d{6}).*",str(td))
 			code=searchCode.group(1)
 			# print(code,name,target,price)
-			sql = "insert into org_concern_stock(code,name,goal,created_date,price)values('%s','%s',%s,'%s',%s)"%(code,name,target,time.strftime("%Y-%m-%d",time.localtime()),price)
+			sql = "insert into org_concern_stock(code,name,goal,date,price)values('%s','%s',%s,'%s',%s)"%(code,name,target,time.strftime("%Y-%m-%d",time.localtime()),price)
 			util.db_insert(sql)
-			# print(sql)
+			#print(sql)
 print("execute final.")
 
 

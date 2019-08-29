@@ -68,7 +68,7 @@ def get_stock_data(code,bdate,edate):
 					]
 	url="http://q.stock.sohu.com/hisHq?code=cn_%s&start=%s&end=%s&stat=1&order=D&period=d&callback=historySearchHandler&rt=json"%(code,bdate,edate)
 	try:
-		headers=("user-agent",random.choice(user_agent_list))
+		headers={"user-agent":random.choice(user_agent_list)}
 		
 		response = requests.get(url,headers=headers)
 		content = response.text

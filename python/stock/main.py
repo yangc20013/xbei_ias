@@ -56,6 +56,7 @@ if __name__ == '__main__':
 		for row in rows:
 			try:
 				td = row.select("td")
+				hot = td[0].get_text()
 				name = td[1].get_text()
 				target = td[8].get_text()
 				searchCode = re.match(".*code=(\\d{6}).*",str(td))
@@ -66,9 +67,9 @@ if __name__ == '__main__':
 					logger.warning(code + " " + name+ " price = 0")
 					continue
 				
-				sql = "insert into org_hot_stock(code,name,goal,date,price)values('%s','%s',%s,'%s',%s)"%(code,name,target,time.strftime("%Y-%m-%d",time.localtime()),price)
+				sql = "insert into org_hot_stock(hot,code,name,goal,date,price)values(%s,'%s','%s',%s,'%s',%s)"%(hot,code,name,target,time.strftime("%Y-%m-%d",time.localtime()),price)
 				util.db_insert(sql)
-				# print(sql)
+				print(sql+";")
 				time.sleep(1)
 			except Exception as e:
 				logger.error(row)

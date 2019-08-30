@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-import util,re,time
+import util,re,time,logging
 from bs4 import BeautifulSoup
 
 
@@ -32,6 +32,10 @@ from bs4 import BeautifulSoup
 # (22, 23), (24, 25), (26,27), (28, 29)分别为“卖二”至“卖四的情况”
 # 30：”2008-01-11″，日期；
 # 31：”15:05:32″，时间；
+
+logging.basicConfig(level = logging.INFO,format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
 def get_stock_price(code):
 	url = "http://hq.sinajs.cn/list=%s"%(code)
 	pageSource = util.get_page_source(url)
@@ -44,24 +48,48 @@ def get_stock_price(code):
 
 #主程序
 if __name__ == '__main__':
-	url="http://finance.ifeng.com/app/hq/stock/sh601012/index.shtml"
+	url="http://app.finance.ifeng.com/report/hot.php"
 	pageSource = util.get_page_source(url)
 	if pageSource != None:
 		soup=BeautifulSoup(pageSource,'html.parser')
-		#print(soup.select('#hyzd06-2'))
-		rows = soup.select("#hyzd06-2 .tabTd")
+		rows = soup.select(".newsHybg .list2 tr")
 		for row in rows:
-			td = row.select("td")
-			name = td[0].get_text()
-			target = td[2].get_text()
-			searchStock = re.match(".*code=([a-z]{2}\\d{6}).*",str(td))
-			price = get_stock_price(searchStock.group(1))
-			searchCode = re.match(".*code=(\\d{6}).*",str(td))
-			code=searchCode.group(1)
-			# print(code,name,target,price)
-			sql = "insert into org_concern_stock(code,name,goal,date,price)values('%s','%s',%s,'%s',%s)"%(code,name,target,time.strftime("%Y-%m-%d",time.localtime()),price)
-			util.db_insert(sql)
-			#print(sql)
-print("execute final.")
+			try:
+				td = row.select("td")
+				name = td[1].get_text()
+				target = td[8].get_text()
+				searchCode = re.match(".*code=(\\d{6}).*",str(td))
+				code=searchCode.group(1)
+				searchStock = re.match(".*id=\"([a-z]{2}\\d{6}).*",str(td))
+				price = get_stock_price(searchStock.group(1))
+				if(int(float(price)) == 0):
+					logger.warning(code + " " + name+ " price = 0")
+					continue
+				
+				sql = "insert into org_hot_stock(code,name,goal,date,price)values('%s','%s',%s,'%s',%s)"%(code,name,target,time.strftime("%Y-%m-%d",time.localtime()),price)
+				util.db_insert(sql)
+				# print(sql)
+				time.sleep(1)
+			except Exception as e:
+				logger.error(row)
+	# url="http://finance.ifeng.com/app/hq/stock/sh601012/index.shtml"
+	# pageSource = util.get_page_source(url)
+	# if pageSource != None:
+	# 	soup=BeautifulSoup(pageSource,'html.parser')
+	# 	#print(soup.select('#hyzd06-2'))
+	# 	rows = soup.select("#hyzd06-2 .tabTd")
+	# 	for row in rows:
+	# 		td = row.select("td")
+	# 		name = td[0].get_text()
+	# 		target = td[2].get_text()
+	# 		searchStock = re.match(".*code=([a-z]{2}\\d{6}).*",str(td))
+	# 		price = get_stock_price(searchStock.group(1))
+	# 		searchCode = re.match(".*code=(\\d{6}).*",str(td))
+	# 		code=searchCode.group(1)
+	# 		# print(code,name,target,price)
+	# 		sql = "insert into org_concern_stock(code,name,goal,date,price)values('%s','%s',%s,'%s',%s)"%(code,name,target,time.strftime("%Y-%m-%d",time.localtime()),price)
+	# 		util.db_insert(sql)
+	# 		#print(sql)
+logger.info("execute final.")
 
 

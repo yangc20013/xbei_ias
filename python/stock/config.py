@@ -79,4 +79,6 @@ insert into org_hot_stock(hot,code,name,goal,date,price)values(11,'300616','尚�
 
 select t.*,(t.goal-t.price)/t.price as 'cb' from org_hot_stock t order by hot desc,cb desc;
 
+select round((t.goal-t.price)/t.price,4) as '差比',t.hot as '关注度',t.code,t.name,t.goal as '目标价',t.price as '当前价',t.date from org_hot_stock t order by 2 desc,1 desc;
+
 '''

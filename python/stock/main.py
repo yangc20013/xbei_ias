@@ -69,7 +69,7 @@ if __name__ == '__main__':
 				
 				sql = "insert into org_hot_stock(hot,code,name,goal,date,price)values(%s,'%s','%s',%s,'%s',%s)"%(hot,code,name,target,time.strftime("%Y-%m-%d",time.localtime()),price)
 				util.db_insert(sql)
-				print(sql+";")
+				# print(sql+";")
 				time.sleep(1)
 			except Exception as e:
 				logger.error(row)

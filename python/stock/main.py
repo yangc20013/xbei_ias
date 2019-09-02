@@ -62,12 +62,13 @@ if __name__ == '__main__':
 				searchCode = re.match(".*code=(\\d{6}).*",str(td))
 				code=searchCode.group(1)
 				searchStock = re.match(".*id=\"([a-z]{2}\\d{6}).*",str(td))
-				price = get_stock_price(searchStock.group(1))
+				code1 = searchStock.group(1)
+				price = get_stock_price(code1)
 				if(int(float(price)) == 0):
 					logger.warning(code + " " + name+ " price = 0")
 					continue
 				
-				sql = "insert into org_hot_stock(hot,code,name,goal,date,price)values(%s,'%s','%s',%s,'%s',%s)"%(hot,code,name,target,time.strftime("%Y-%m-%d",time.localtime()),price)
+				sql = "insert into org_hot_stock(hot,code,name,goal,date,price)values(%s,'%s','%s',%s,'%s',%s)"%(hot,code1,name,target,time.strftime("%Y-%m-%d",time.localtime()),price)
 				util.db_insert(sql)
 				# print(sql+";")
 				time.sleep(1)

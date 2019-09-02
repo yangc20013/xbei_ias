@@ -81,4 +81,28 @@ select t.*,(t.goal-t.price)/t.price as 'cb' from org_hot_stock t order by hot de
 
 select round((t.goal-t.price)/t.price,4) as '差比',t.hot as '关注度',t.code,t.name,t.goal as '目标价',t.price as '当前价',t.date from org_hot_stock t order by 2 desc,1 desc;
 
+
+
+
+CREATE PROCEDURE `pro_get_price`()
+BEGIN
+	SET @sql = NULL;
+	SELECT 
+    GROUP_CONCAT(DISTINCT CONCAT('MAX(IF(s.date = \'',
+                c.date,
+                '\', s.price, 0)) AS \'',
+                c.date,
+                '\''))
+INTO @sql FROM
+    org_hot_stock c;
+
+	SET @sql = CONCAT('Select st.code, st.name, st.goal,', @sql, 
+							' From org_hot_stock  st Left Join org_hot_stock s On st.code = s.code
+							Group by 1,2');
+	PREPARE stmt FROM @sql;
+	EXECUTE stmt;
+	DEALLOCATE PREPARE stmt;
+END
+
+call pro_get_price();
 '''

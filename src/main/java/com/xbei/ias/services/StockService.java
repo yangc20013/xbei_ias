@@ -1,6 +1,7 @@
 package com.xbei.ias.services;
 
 import java.util.List;
+import java.util.Map;
 
 import com.xbei.ias.models.po.Dict;
 import com.xbei.ias.models.po.FilterStock;
@@ -14,4 +15,7 @@ public interface StockService {
 	List<FilterStock> filter(SearchModel model);
 	List<FilterStock> history();
 	List<FilterStock> today();
+	
+	List<Map<String,Object>> findHotList();
+	Map<String,Object> findHotStockDetail(List<String> codes);
 }

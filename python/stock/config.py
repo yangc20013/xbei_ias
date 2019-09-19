@@ -7,10 +7,10 @@ MYSQL_HOST = 'localhost'
 MYSQL_PORT = 3306
 MYSQL_USER = 'root'
 MYSQL_PASSWORD = 'root'
-MYSQL_DB = 'my_python'
+MYSQL_DB = 'xbei_ias'
 
 '''
-CREATE DATABASE  IF NOT EXISTS `my_python` ;
+CREATE DATABASE  IF NOT EXISTS `xbei_ias` ;
 USE `my_python`;
 DROP TABLE IF EXISTS `org_hot_stock`;
 CREATE TABLE `org_hot_stock` (
@@ -20,7 +20,7 @@ CREATE TABLE `org_hot_stock` (
   `name` varchar(45) NOT NULL,
   `goal` float NOT NULL,
   `date` date NOT NULL,
-  `price` varchar(45) DEFAULT NULL,
+  `price` float DEFAULT NULL,
   `created_time` timestamp DEFAULT NOW(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `index2` (`code`,`date`)
@@ -133,6 +133,7 @@ select t.*,(t.goal-t.price)/t.price as 'cb' from org_hot_stock t order by hot de
 select round((t.goal-t.price)/t.price,4) as '差比',t.hot as '关注度',t.code,t.name,t.goal as '目标价',t.price as '当前价',t.date from org_hot_stock t order by 2 desc,1 desc;
 
 
+delimiter @@
 
 CREATE PROCEDURE `pro_get_price`()
 BEGIN
@@ -152,7 +153,7 @@ INTO @sql FROM
 	PREPARE stmt FROM @sql;
 	EXECUTE stmt;
 	DEALLOCATE PREPARE stmt;
-END
-
+END@@
+delimiter ;
 call pro_get_price();
 '''
